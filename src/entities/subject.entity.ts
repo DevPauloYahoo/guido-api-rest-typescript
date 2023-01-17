@@ -16,9 +16,6 @@ export class Subject {
   @Column({ type: 'text' })
   name: string;
 
-  @Column({ type: 'text' })
-  url: string;
-
   @ManyToMany(() => Room, (room) => room.subjects)
   @JoinTable({
     name: 'room_subject',
