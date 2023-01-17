@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": [
+      "es5",
+      "es6",
+      "ES2018"
+    ],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false
+    //    "declaration": true,
+    //    "removeComments": true,
+    //    "allowSyntheticDefaultImports": true,
+    //    "sourceMap": true,
+    //    "baseUrl": "./",
+    //    "incremental": true,
+    //    "skipLibCheck": true,
+    //    "strictNullChecks": false,
+    //    "strictBindCallApply": false,
+    //    "noFallthroughCasesInSwitch": false
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "ts-node": {
+    "files": true
+  }
+}
