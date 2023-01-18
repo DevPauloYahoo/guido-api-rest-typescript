@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -17,12 +18,23 @@ export class Room {
   @Column({ type: 'text' })
   name: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @OneToMany(() => Video, (video) => video.room)
   videos: Video[];
 
   @ManyToMany(() => Subject, (subject) => subject.rooms)
+  @JoinTable({
+    name: 'room_subject',
+    joinColumn: {
+      name: 'room_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'subject_id',
+      referencedColumnName: 'id',
+    },
+  })
   subjects: Subject[];
 }

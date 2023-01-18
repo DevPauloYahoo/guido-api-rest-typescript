@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { subjetcRepository } from '../repositories/subjetc.repository';
+import { subjectRepository } from '../repositories/subjetc.repository';
 
 export class SubjectController {
   async create(req: Request, res: Response) {
@@ -10,11 +10,11 @@ export class SubjectController {
       return res.status(400).json({ message: 'Nome é obrigatório' });
     }
     try {
-      const newSubject = subjetcRepository.create({
+      const newSubject = subjectRepository.create({
         name,
       });
 
-      await subjetcRepository.save(newSubject);
+      await subjectRepository.save(newSubject);
       return res.status(201).json(newSubject);
     } catch (error) {
       console.error(error);
