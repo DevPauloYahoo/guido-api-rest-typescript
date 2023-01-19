@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 
 import { Room } from '../entities/room.entity';
-import { Subject } from '../entities/subject.entity';
 import { roomRepository } from '../repositories/room.repository';
-import { subjectRepository } from '../repositories/subjetc.repository';
+import { subjectRepository } from '../repositories/subject.repository';
 
 export class RoomController {
-  async create(req: Request, res: Response) {
+  async create(
+    req: Request,
+    res: Response,
+  ): Promise<Response<Room> | undefined> {
     const { name, description } = req.body;
 
     if (!name) {
@@ -52,24 +54,13 @@ export class RoomController {
         return res.status(400).json({ message: 'Matéria não encontrada' });
       }
 
-      // const roomTest = new Room();
-      // roomTest.id = room.id;
-      // roomTest.name = room.name;
-      // roomTest.description = room.description;
-      // roomTest.subjects = [subject];
-      // roomTest.videos = [];
-      // await roomRepository.save(roomTest, { transaction: true });
+      subject.rooms = [room];
 
-      const subjectTest = new Subject();
-      subjectTest.id = subject.id;
-      subjectTest.name = subject.name;
-      subjectTest.rooms = [room];
+      await subjectRepository.save(subject);
 
-      await subjectRepository.save(subjectTest);
-
-      console.log('SUBJECT ', subjectTest);
-
-      return res.status(200).json({ message: 'ok' });
+      return res.status(200).json({
+        message: `${subject.name} adicionada com sucesso à ${room.name}`,
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Erro interno no servidor' });

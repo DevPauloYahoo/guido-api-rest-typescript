@@ -24,7 +24,7 @@ export class Room {
   @OneToMany(() => Video, (video) => video.room)
   videos: Video[];
 
-  @ManyToMany(() => Subject, (subject) => subject.rooms)
+  @ManyToMany(() => Subject, (subject) => subject.rooms, { cascade: true })
   @JoinTable({
     name: 'room_subject',
     joinColumn: {

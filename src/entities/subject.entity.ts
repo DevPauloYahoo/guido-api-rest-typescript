@@ -10,6 +10,8 @@ export class Subject {
   @Column({ type: 'text' })
   name: string;
 
-  @ManyToMany(() => Room, (room) => room.subjects)
+  @ManyToMany(() => Room, (room) => room.subjects, {
+    cascade: ['insert', 'update'],
+  })
   rooms: Room[];
 }
