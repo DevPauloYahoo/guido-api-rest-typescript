@@ -1,3 +1,4 @@
+import { IsNotEmpty, MinLength } from 'class-validator';
 import {
   Column,
   Entity,
@@ -15,6 +16,8 @@ export class Room {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @IsNotEmpty({ message: 'Nome da Sala é obrigatório' })
+  @MinLength(4, { message: 'Nome deve ter no mínimo 4 caracteres' })
   @Column({ type: 'text' })
   name: string;
 

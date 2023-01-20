@@ -8,17 +8,21 @@ export class RoomController {
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
-    const { name, description, subjects, videos } = req.body;
-
-    if (!name) {
-      return res.status(400).json({ message: 'Nome é obrigatório' });
-    }
+    const { name, description } = req.body;
 
     try {
       const newRoom = roomRepository.create({
         name,
         description,
       });
+
+      // const errors = await validate(newRoom);
+      //
+      // if (errors.length > 0) {
+      //   let constraints: any = {};
+      //   errors.forEach((err) => (constraints = err.constraints));
+      //   return res.status(400).json(constraints);
+      // }
 
       await roomRepository.save(newRoom);
       return res.status(201).json(newRoom);
@@ -44,15 +48,6 @@ export class RoomController {
         relations: { subjects: true },
       });
 
-      if (
-        room?.subjects.find((s) => s.id === subjectId) &&
-        room?.id === roomId
-      ) {
-        return res
-          .status(400)
-          .json({ message: 'Disciplina já pertence a sala' });
-      }
-
       if (!room) {
         return res.status(400).json({ message: 'Sala não encontrada' });
       }
@@ -64,6 +59,15 @@ export class RoomController {
       const subject = await subjectRepository.findOneBy({ id: subjectId });
       if (!subject) {
         return res.status(400).json({ message: 'Matéria não encontrada' });
+      }
+
+      if (
+        room?.subjects.find((s) => s.id === subjectId) &&
+        room?.id === roomId
+      ) {
+        return res.status(400).json({
+          message: `A disciplina ${subject.name} já pertence a sala ${room?.name}`,
+        });
       }
 
       room.subjects.push(subject);

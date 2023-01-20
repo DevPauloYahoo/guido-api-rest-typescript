@@ -1,22 +1,17 @@
-import express from 'express';
-
+import app from './app';
 import { appDataSource } from './data-source';
-import routes from './routes';
 
-appDataSource
-  .initialize()
-  .then(() => {
-    const app = express();
-
-    app.use(express.json());
-
-    app.use(routes);
-
+const main = async () => {
+  await appDataSource.initialize();
+  try {
+    console.log('Banco de Dados iniciado com sucesso');
     app.listen(process.env.SERVER_PORT, () =>
       console.log('Server running in the port', process.env.SERVER_PORT),
     );
-  })
-  .catch((err) => {
+  } catch (err: any) {
     console.error('Error Server running in the port', process.env.SERVER_PORT);
     console.error(err.message);
-  });
+  }
+};
+
+main();
