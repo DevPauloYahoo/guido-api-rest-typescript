@@ -1,15 +1,14 @@
 import { Request, Response } from 'express';
 
-import { Room } from '../entities/room.entity';
-import { roomRepository } from '../repositories/room.repository';
-import { subjectRepository } from '../repositories/subject.repository';
+import { Room } from '../entities';
+import { roomRepository, subjectRepository } from '../repositories';
 
 export class RoomController {
   async create(
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
-    const { name, description } = req.body;
+    const { name, description, subjects, videos } = req.body;
 
     if (!name) {
       return res.status(400).json({ message: 'Nome é obrigatório' });
@@ -40,7 +39,20 @@ export class RoomController {
         return res.status(400).json({ message: 'ID da Sala é obrigatório' });
       }
 
-      const room = await roomRepository.findOneBy({ id: roomId });
+      const room = await roomRepository.findOne({
+        where: { id: roomId },
+        relations: { subjects: true },
+      });
+
+      if (
+        room?.subjects.find((s) => s.id === subjectId) &&
+        room?.id === roomId
+      ) {
+        return res
+          .status(400)
+          .json({ message: 'Disciplina já pertence a sala' });
+      }
+
       if (!room) {
         return res.status(400).json({ message: 'Sala não encontrada' });
       }
@@ -54,12 +66,13 @@ export class RoomController {
         return res.status(400).json({ message: 'Matéria não encontrada' });
       }
 
-      subject.rooms = [room];
+      room.subjects.push(subject);
 
-      await subjectRepository.save(subject);
+      const result = await roomRepository.save(room);
 
       return res.status(200).json({
-        message: `${subject.name} adicionada com sucesso à ${room.name}`,
+        result,
+        // message: `${subject.name} adicionada com sucesso à ${room.name}`,
       });
     } catch (error) {
       console.error(error);

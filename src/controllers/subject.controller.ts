@@ -23,6 +23,7 @@ export class SubjectController {
       return res.status(500).json({ message: 'Erro interno no servidor' });
     }
   }
+
   async addRoom(
     req: Request,
     res: Response,
@@ -48,8 +49,12 @@ export class SubjectController {
         return res.status(400).json({ message: 'Matéria não encontrada' });
       }
 
-      room.subjects = [subject];
-      await roomRepository.save(room);
+      const upRoom = roomRepository.create({
+        ...room,
+        subjects: [subject],
+      });
+
+      await roomRepository.save(upRoom);
 
       return res.status(200).json({
         message: `${room.name} adicionada com sucesso à ${subject.name}`,

@@ -1,8 +1,10 @@
 import { Router } from 'express';
 
-import { RoomController } from './controllers/room.controller';
-import { SubjectController } from './controllers/subject.controller';
-import { VideoController } from './controllers/video.controller';
+import {
+  RoomController,
+  SubjectController,
+  VideoController,
+} from './controllers';
 
 const routes = Router();
 

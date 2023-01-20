@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class default1674141920541 implements MigrationInterface {
-  name = 'default1674141920541';
+export class default1674177595584 implements MigrationInterface {
+  name = 'default1674177595584';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -26,19 +26,19 @@ export class default1674141920541 implements MigrationInterface {
       `ALTER TABLE "videos" ADD CONSTRAINT "pk_room_id" FOREIGN KEY ("room_id") REFERENCES "rooms"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
-      `ALTER TABLE "room_subject" ADD CONSTRAINT "FK_f227421d2ef64ab086261ac07fd" FOREIGN KEY ("room_id") REFERENCES "rooms"("id") ON DELETE CASCADE ON UPDATE CASCADE`,
+      `ALTER TABLE "room_subject" ADD CONSTRAINT "PK_ROOM_ID" FOREIGN KEY ("room_id") REFERENCES "rooms"("id") ON DELETE CASCADE ON UPDATE CASCADE`,
     );
     await queryRunner.query(
-      `ALTER TABLE "room_subject" ADD CONSTRAINT "FK_a05f10c497f5f7db3022664a6d6" FOREIGN KEY ("subject_id") REFERENCES "subjects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "room_subject" ADD CONSTRAINT "PK_SUBJECT_ID" FOREIGN KEY ("subject_id") REFERENCES "subjects"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "room_subject" DROP CONSTRAINT "FK_a05f10c497f5f7db3022664a6d6"`,
+      `ALTER TABLE "room_subject" DROP CONSTRAINT "PK_SUBJECT_ID"`,
     );
     await queryRunner.query(
-      `ALTER TABLE "room_subject" DROP CONSTRAINT "FK_f227421d2ef64ab086261ac07fd"`,
+      `ALTER TABLE "room_subject" DROP CONSTRAINT "PK_ROOM_ID"`,
     );
     await queryRunner.query(
       `ALTER TABLE "videos" DROP CONSTRAINT "pk_room_id"`,

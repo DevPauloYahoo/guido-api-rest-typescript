@@ -24,15 +24,17 @@ export class Room {
   @OneToMany(() => Video, (video) => video.room)
   videos: Video[];
 
-  @ManyToMany(() => Subject, (subject) => subject.rooms, { cascade: true })
+  @ManyToMany(() => Subject, (subject) => subject.rooms)
   @JoinTable({
     name: 'room_subject',
     joinColumn: {
       name: 'room_id',
+      foreignKeyConstraintName: 'PK_ROOM_ID',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
       name: 'subject_id',
+      foreignKeyConstraintName: 'PK_SUBJECT_ID',
       referencedColumnName: 'id',
     },
   })
