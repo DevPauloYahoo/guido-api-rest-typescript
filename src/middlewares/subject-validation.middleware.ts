@@ -1,20 +1,19 @@
 import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
-import { roomRepository } from '../repositories';
+import { subjectRepository } from '../repositories';
 import { TConstraints } from './types';
 
-export const RoomCreateMiddleware = async (
+export const SubjectCreateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const newRoom = roomRepository.create({
+  const newSubject = subjectRepository.create({
     name: req.body.name,
-    description: req.body.description,
   });
 
-  const errors = await validate(newRoom, {
+  const errors = await validate(newSubject, {
     whitelist: true,
     forbidNonWhitelisted: true,
   });

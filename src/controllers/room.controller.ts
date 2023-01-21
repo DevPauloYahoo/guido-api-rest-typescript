@@ -16,14 +16,6 @@ export class RoomController {
         description,
       });
 
-      // const errors = await validate(newRoom);
-      //
-      // if (errors.length > 0) {
-      //   let constraints: any = {};
-      //   errors.forEach((err) => (constraints = err.constraints));
-      //   return res.status(400).json(constraints);
-      // }
-
       await roomRepository.save(newRoom);
       return res.status(201).json(newRoom);
     } catch (error) {

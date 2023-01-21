@@ -1,20 +1,29 @@
 import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
-import { roomRepository } from '../repositories';
+import { roomRepository, videoRepository } from '../repositories';
 import { TConstraints } from './types';
 
-export const RoomCreateMiddleware = async (
+export const VideoCreateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const newRoom = roomRepository.create({
-    name: req.body.name,
-    description: req.body.description,
+  const newVideo = videoRepository.create({
+    title: req.body.title,
+    url: req.body.url,
   });
 
-  const errors = await validate(newRoom, {
+  const { roomId } = req.params;
+  const room = await roomRepository.findOneBy({ id: roomId });
+
+  if (!room) {
+    return res
+      .status(404)
+      .json({ roomId: `Sala com ID ${roomId} não encontrada` });
+  }
+
+  const errors = await validate(newVideo, {
     whitelist: true,
     forbidNonWhitelisted: true,
   });
