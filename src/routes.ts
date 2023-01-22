@@ -5,6 +5,7 @@ import {
   SubjectController,
   VideoController,
 } from './controllers';
+import { resolver } from './helpers';
 import {
   RoomCreateMiddleware,
   SubjectCreateMiddleware,
@@ -13,18 +14,22 @@ import {
 
 const routes = Router();
 
-routes.post('/rooms', [RoomCreateMiddleware], new RoomController().create);
-routes.get('/rooms/:roomId', [], new RoomController().findById);
-routes.post('/rooms/add-subjects', new RoomController().addSubject);
+routes.post(
+  '/rooms',
+  [RoomCreateMiddleware],
+  resolver(new RoomController().create),
+);
+routes.get('/rooms/:roomId', [], resolver(new RoomController().findById));
+routes.post('/rooms/add-subjects', resolver(new RoomController().addSubject));
 routes.post(
   '/subjects',
   [SubjectCreateMiddleware],
-  new SubjectController().create,
+  resolver(new SubjectController().create),
 );
 routes.post(
   '/videos/:roomId/create',
   [VideoCreateMiddleware],
-  new VideoController().create,
+  resolver(new VideoController().create),
 );
 
 export default routes;
