@@ -61,7 +61,7 @@ export class RoomController {
 
     const result = await roomRepository.save(room);
 
-    return res.status(200).json({
+    return res.status(201).json({
       result,
       // message: `${subject.name} adicionada com sucesso à ${room.name}`,
     });
