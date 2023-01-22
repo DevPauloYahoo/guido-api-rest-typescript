@@ -22,5 +22,6 @@ export * from './server';
 // exportação de pastas
 export * from './controllers';
 export * from './entities';
+export * from './helpers';
 export * from './middlewares';
 export * from './repositories';

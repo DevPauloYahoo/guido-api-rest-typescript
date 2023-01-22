@@ -10,7 +10,7 @@ export class Subject {
 
   @IsNotEmpty({ message: 'Nome da disciplina é obrigatório' })
   @MinLength(4, { message: 'Nome deve conter no mínimo 4 caracteres' })
-  @Column({ type: 'text' })
+  @Column({ type: 'text', unique: true })
   name: string;
 
   @ManyToMany(() => Room, (room) => room.subjects, { cascade: true })

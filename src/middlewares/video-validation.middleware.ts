@@ -33,5 +33,8 @@ export const VideoCreateMiddleware = async (
     errors.forEach((err) => (constraints = err.constraints));
     return res.status(400).json(constraints);
   }
+
+  req.room = room;
+
   next();
 };

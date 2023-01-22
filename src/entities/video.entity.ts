@@ -19,8 +19,8 @@ export class Video {
   @Column({ type: 'text' })
   title: string;
 
-  @IsNotEmpty({ message: 'Título do vídeo é obrigatório' })
-  @MinLength(10, { message: 'Título deve ter no mínimo 10 caracteres' })
+  @IsNotEmpty({ message: 'Url do vídeo é obrigatório' })
+  @MinLength(10, { message: 'Url deve ter no mínimo 10 caracteres' })
   @Column({ type: 'text' })
   url: string;
 

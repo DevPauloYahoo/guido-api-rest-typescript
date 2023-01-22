@@ -14,6 +14,7 @@ import {
 const routes = Router();
 
 routes.post('/rooms', [RoomCreateMiddleware], new RoomController().create);
+routes.get('/rooms/:roomId', [], new RoomController().findById);
 routes.post('/rooms/add-subjects', new RoomController().addSubject);
 routes.post(
   '/subjects',

@@ -9,14 +9,15 @@ export const RoomCreateMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const { name, description } = req.body;
+
   const newRoom = roomRepository.create({
-    name: req.body.name,
-    description: req.body.description,
+    name,
+    description,
   });
 
   const errors = await validate(newRoom, {
     whitelist: true,
-    forbidNonWhitelisted: true,
   });
 
   if (errors.length > 0) {
@@ -24,5 +25,6 @@ export const RoomCreateMiddleware = async (
     errors.forEach((err) => (constraints = err.constraints));
     return res.status(400).json(constraints);
   }
+
   next();
 };

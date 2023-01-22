@@ -18,7 +18,7 @@ export class Room {
 
   @IsNotEmpty({ message: 'Nome da Sala é obrigatório' })
   @MinLength(4, { message: 'Nome deve ter no mínimo 4 caracteres' })
-  @Column({ type: 'text' })
+  @Column({ type: 'text', unique: true })
   name: string;
 
   @Column({ type: 'text', nullable: true })

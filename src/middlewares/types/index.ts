@@ -1,1 +1,1 @@
-export * from './constraints.type';
+export * from './middlewares.type';
