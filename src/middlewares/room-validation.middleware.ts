@@ -2,28 +2,21 @@ import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
 import { roomRepository } from '../repositories';
-import { TConstraints } from './types';
+import { errorValidation } from './error-validation';
 
 export const RoomCreateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const { name, description } = req.body;
-
-  const newRoom = roomRepository.create({
-    name,
-    description,
-  });
+  const newRoom = roomRepository.create(req.body);
 
   const errors = await validate(newRoom, {
     whitelist: true,
   });
 
   if (errors.length > 0) {
-    let constraints: TConstraints = undefined;
-    errors.forEach((err) => (constraints = err.constraints));
-    return res.status(400).json(constraints);
+    return errorValidation(errors, res);
   }
 
   next();

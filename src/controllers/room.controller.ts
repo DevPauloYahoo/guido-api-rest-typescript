@@ -13,8 +13,6 @@ export class RoomController {
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
-    // const { name, description } = req.body;
-
     const newRoom = await roomRepository
       .createQueryBuilder()
       .insert()
@@ -22,14 +20,8 @@ export class RoomController {
       .values(req.body)
       .execute();
 
-    // const newRoom = roomRepository.create({
-    //   name,
-    //   description,
-    // });
-
-    // await roomRepository.save(newRoom);
     return res.status(201).json({
-      message: `Sala com ID: ${newRoom.identifiers} adicionada com sucesso`,
+      message: `Sala com ID: ${newRoom.raw[0].id} adicionada com sucesso`,
     });
   }
 
@@ -67,24 +59,13 @@ export class RoomController {
       );
     }
 
-    // if (room?.subjects.find((s) => s.id === subjectId) && room?.id === roomId) {
-    //   throw new BadRequestError(
-    //     `A disciplina ${subject.name} já pertence a sala ${room?.name}`,
-    //   );
-    // }
-
     await roomRepository
       .createQueryBuilder()
       .relation(Room, 'subjects')
       .of(roomId)
       .add(subjectId);
 
-    // room.subjects.push(subject);
-
-    // const result = await roomRepository.save(room);
-
     return res.status(201).json({
-      // result,
       message: `${subject.name} adicionada com sucesso à ${room.name}`,
     });
   }

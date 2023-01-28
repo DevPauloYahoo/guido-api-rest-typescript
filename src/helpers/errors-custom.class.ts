@@ -1,11 +1,7 @@
-export class ApiErrors extends Error {
-  public readonly statusCode: number;
+import { Response } from 'express';
 
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-  }
-}
+import { TConstraints } from '../middlewares';
+import { ApiErrors } from './api-errors.class';
 
 export class BadRequestError extends ApiErrors {
   constructor(message: string) {
@@ -22,5 +18,11 @@ export class NotFoundError extends ApiErrors {
 export class UnauthorizedError extends ApiErrors {
   constructor(message: string) {
     super(message, 401);
+  }
+}
+
+export class BadRequestErrorValidation {
+  constructor(data: TConstraints, res: Response) {
+    return res.status(400).json(data);
   }
 }

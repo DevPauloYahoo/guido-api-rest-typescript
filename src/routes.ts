@@ -14,23 +14,25 @@ import {
 
 const routes = Router();
 
-routes.post(
-  '/rooms',
-  [RoomCreateMiddleware],
-  resolver(new RoomController().create),
-);
-routes.get(
-  '/rooms/pagination',
-  [],
-  resolver(new RoomController().findAllPagination),
-);
-routes.get('/rooms/:roomId', [], resolver(new RoomController().findById));
-routes.post('/rooms/add-subjects', resolver(new RoomController().addSubject));
+// routes subjects
+routes
+  .post('/rooms', [RoomCreateMiddleware], resolver(new RoomController().create))
+  .get(
+    '/rooms/pagination',
+    [],
+    resolver(new RoomController().findAllPagination),
+  )
+  .get('/rooms/:roomId', [], resolver(new RoomController().findById))
+  .post('/rooms/add-subjects', resolver(new RoomController().addSubject));
+
+// routes subjects
 routes.post(
   '/subjects',
   [SubjectCreateMiddleware],
   resolver(new SubjectController().create),
 );
+
+// routes subjects
 routes.post(
   '/videos/:roomId/create',
   [VideoCreateMiddleware],

@@ -2,17 +2,14 @@ import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
 import { roomRepository, videoRepository } from '../repositories';
-import { TConstraints } from './types';
+import { errorValidation } from './error-validation';
 
 export const VideoCreateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const newVideo = videoRepository.create({
-    title: req.body.title,
-    url: req.body.url,
-  });
+  const newVideo = videoRepository.create(req.body);
 
   const { roomId } = req.params;
   const room = await roomRepository.findOneBy({ id: roomId });
@@ -29,9 +26,7 @@ export const VideoCreateMiddleware = async (
   });
 
   if (errors.length > 0) {
-    let constraints: TConstraints = undefined;
-    errors.forEach((err) => (constraints = err.constraints));
-    return res.status(400).json(constraints);
+    return errorValidation(errors, res);
   }
 
   req.room = room;
