@@ -19,6 +19,11 @@ routes.post(
   [RoomCreateMiddleware],
   resolver(new RoomController().create),
 );
+routes.get(
+  '/rooms/pagination',
+  [],
+  resolver(new RoomController().findAllPagination),
+);
 routes.get('/rooms/:roomId', [], resolver(new RoomController().findById));
 routes.post('/rooms/add-subjects', resolver(new RoomController().addSubject));
 routes.post(

@@ -17,6 +17,7 @@ export const errorMiddleware = (
   } else if ((statusCode = error.statusCode)) {
     message = error.message;
   } else {
+    console.log(error);
     statusCode = 500;
     message = 'Internal Server Error';
   }

@@ -1,4 +1,8 @@
 import { Request, Response } from 'express';
+import {
+  paginate,
+  PaginationAwareObject,
+} from 'typeorm-pagination/dist/helpers/pagination';
 
 import { Room } from '../entities';
 import { BadRequestError, NotFoundError } from '../helpers';
@@ -9,15 +13,24 @@ export class RoomController {
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
-    const { name, description } = req.body;
+    // const { name, description } = req.body;
 
-    const newRoom = roomRepository.create({
-      name,
-      description,
+    const newRoom = await roomRepository
+      .createQueryBuilder()
+      .insert()
+      .into(Room)
+      .values(req.body)
+      .execute();
+
+    // const newRoom = roomRepository.create({
+    //   name,
+    //   description,
+    // });
+
+    // await roomRepository.save(newRoom);
+    return res.status(201).json({
+      message: `Sala com ID: ${newRoom.identifiers} adicionada com sucesso`,
     });
-
-    await roomRepository.save(newRoom);
-    return res.status(201).json(newRoom);
   }
 
   async addSubject(
@@ -32,7 +45,7 @@ export class RoomController {
 
     const room = await roomRepository.findOne({
       where: { id: roomId },
-      relations: { subjects: true },
+      select: { id: true, name: true },
     });
 
     if (!room) {
@@ -40,10 +53,13 @@ export class RoomController {
     }
 
     if (!subjectId) {
-      throw new BadRequestError('ID do Assunto é obrigatório');
+      throw new BadRequestError('ID da Disciplina é obrigatório');
     }
 
-    const subject = await subjectRepository.findOneBy({ id: subjectId });
+    const subject = await subjectRepository.findOne({
+      where: { id: subjectId },
+      select: { id: true, name: true },
+    });
 
     if (!subject) {
       throw new NotFoundError(
@@ -51,19 +67,25 @@ export class RoomController {
       );
     }
 
-    if (room?.subjects.find((s) => s.id === subjectId) && room?.id === roomId) {
-      throw new BadRequestError(
-        `A disciplina ${subject.name} já pertence a sala ${room?.name}`,
-      );
-    }
+    // if (room?.subjects.find((s) => s.id === subjectId) && room?.id === roomId) {
+    //   throw new BadRequestError(
+    //     `A disciplina ${subject.name} já pertence a sala ${room?.name}`,
+    //   );
+    // }
 
-    room.subjects.push(subject);
+    await roomRepository
+      .createQueryBuilder()
+      .relation(Room, 'subjects')
+      .of(roomId)
+      .add(subjectId);
 
-    const result = await roomRepository.save(room);
+    // room.subjects.push(subject);
+
+    // const result = await roomRepository.save(room);
 
     return res.status(201).json({
-      result,
-      // message: `${subject.name} adicionada com sucesso à ${room.name}`,
+      // result,
+      message: `${subject.name} adicionada com sucesso à ${room.name}`,
     });
   }
 
@@ -89,5 +111,21 @@ export class RoomController {
     }
 
     return res.status(200).json(roomFound);
+  }
+
+  async findAllPagination(
+    req: Request,
+    res: Response,
+  ): Promise<Response<PaginationAwareObject>> {
+    const { page = 1, limit = 10 } = req.query;
+
+    const rooms = roomRepository
+      .createQueryBuilder('room')
+      .select(['room.id', 'room.name', 'sub.id', 'sub.name'])
+      .leftJoin('room.subjects', 'sub', 'sub.id = room_sub.subject_id');
+
+    const result = await paginate(rooms as any, Number(page), Number(limit));
+
+    return res.status(200).json(result);
   }
 }
