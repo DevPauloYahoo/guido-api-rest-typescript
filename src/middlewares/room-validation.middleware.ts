@@ -1,8 +1,8 @@
 import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
+import { errorValidation } from '../helpers';
 import { roomRepository } from '../repositories';
-import { errorValidation } from './error-validation';
 
 export const RoomCreateMiddleware = async (
   req: Request,

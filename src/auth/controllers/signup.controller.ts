@@ -1,11 +1,14 @@
 import { hashSync } from 'bcrypt';
 import { Request, Response } from 'express';
 
-import { UserEntity } from '../entities/user.entity';
-import { UserRepository } from '../repositories';
+import { UserEntity } from '../../entities';
+import { UserRepository } from '../../repositories';
+import { signUpSchema } from '../schemas';
 
 export class SignupController {
   async signUp(req: Request, res: Response): Promise<Response<UserEntity>> {
+    signUpSchema.parse(req.body);
+
     req.body.password = hashSync(req.body.password, 10);
 
     const newUser = await UserRepository.createQueryBuilder()

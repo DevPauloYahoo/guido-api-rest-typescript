@@ -1,8 +1,8 @@
 import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
+import { errorValidation } from '../helpers/error-validation';
 import { roomRepository, videoRepository } from '../repositories';
-import { errorValidation } from './error-validation';
 
 export const VideoCreateMiddleware = async (
   req: Request,

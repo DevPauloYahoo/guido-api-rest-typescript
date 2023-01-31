@@ -2,9 +2,10 @@ import { compareSync } from 'bcrypt';
 import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 
-import { UserEntity } from '../entities/user.entity';
-import { BadRequestError } from '../helpers';
-import { UserRepository } from '../repositories';
+import { UserEntity } from '../../entities';
+import { BadRequestError } from '../../helpers';
+import { UserRepository } from '../../repositories';
+import { signInSchema } from '../schemas';
 
 type Ttoken = {
   access_token: string;
@@ -12,6 +13,8 @@ type Ttoken = {
 
 export class SigninController {
   async signIn(req: Request, res: Response): Promise<Response<UserEntity>> {
+    signInSchema.parse(req.body);
+
     const { email, password } = req.body;
 
     const userFound = await UserRepository.findOne({
@@ -47,6 +50,6 @@ export class SigninController {
 
     res.header('x-access-token', token.access_token);
 
-    return res.status(200).json('OK');
+    return res.status(200).json({ message: 'Login com sucesso' });
   }
 }

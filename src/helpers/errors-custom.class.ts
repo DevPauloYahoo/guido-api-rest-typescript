@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-import { TConstraints } from '../middlewares';
+import { ResErroZod, TConstraints } from '../middlewares';
 import { ApiErrors } from './api-errors.class';
 
 export class BadRequestError extends ApiErrors {
@@ -11,7 +11,7 @@ export class BadRequestError extends ApiErrors {
 
 export class NotFoundError extends ApiErrors {
   constructor(message: string) {
-    super(message, 404);
+    super(message, 400);
   }
 }
 
@@ -23,6 +23,12 @@ export class UnauthorizedError extends ApiErrors {
 
 export class BadRequestErrorValidation {
   constructor(data: TConstraints, res: Response) {
+    return res.status(400).json(data);
+  }
+}
+
+export class BadRequestValidationZod {
+  constructor(data: ResErroZod[], res: Response) {
     return res.status(400).json(data);
   }
 }
