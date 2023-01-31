@@ -2,9 +2,12 @@ import { Request, Response } from 'express';
 
 import { Video } from '../entities';
 import { videoRepository } from '../repositories';
+import { videoSchema } from '../schemas/video.schema';
 
 export class VideoController {
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response): Promise<Response<string>> {
+    videoSchema.parse(req.body);
+
     const { room } = req;
 
     const newVideo = await videoRepository

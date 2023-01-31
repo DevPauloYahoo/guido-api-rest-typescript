@@ -1,16 +1,12 @@
-import { validate } from 'class-validator';
 import { NextFunction, Request, Response } from 'express';
 
-import { errorValidation } from '../helpers/error-validation';
-import { roomRepository, videoRepository } from '../repositories';
+import { roomRepository } from '../repositories';
 
 export const VideoCreateMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const newVideo = videoRepository.create(req.body);
-
   const { roomId } = req.params;
   const room = await roomRepository.findOneBy({ id: roomId });
 
@@ -18,15 +14,6 @@ export const VideoCreateMiddleware = async (
     return res
       .status(404)
       .json({ roomId: `Sala com ID ${roomId} não encontrada` });
-  }
-
-  const errors = await validate(newVideo, {
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  });
-
-  if (errors.length > 0) {
-    return errorValidation(errors, res);
   }
 
   req.room = room;

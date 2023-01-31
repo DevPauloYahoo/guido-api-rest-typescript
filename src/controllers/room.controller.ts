@@ -5,14 +5,18 @@ import {
 } from 'typeorm-pagination/dist/helpers/pagination';
 
 import { Room } from '../entities';
-import { BadRequestError, NotFoundError } from '../helpers';
+import { NotFoundError } from '../helpers';
 import { roomRepository, subjectRepository } from '../repositories';
+import { addSubjectSchema } from '../schemas/add-subject.schema';
+import { roomSchema } from '../schemas/room.schema';
 
 export class RoomController {
   async create(
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
+    roomSchema.parse(req.body);
+
     const newRoom = await roomRepository
       .createQueryBuilder()
       .insert()
@@ -29,11 +33,9 @@ export class RoomController {
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
-    const { roomId, subjectId } = req.body;
+    addSubjectSchema.parse(req.body);
 
-    if (!roomId) {
-      throw new BadRequestError('ID da Sala é obrigatório');
-    }
+    const { roomId, subjectId } = req.body;
 
     const room = await roomRepository.findOne({
       where: { id: roomId },
@@ -42,10 +44,6 @@ export class RoomController {
 
     if (!room) {
       throw new NotFoundError(`Sala não encontrada para o ID ${roomId}`);
-    }
-
-    if (!subjectId) {
-      throw new BadRequestError('ID da Disciplina é obrigatório');
     }
 
     const subject = await subjectRepository.findOne({

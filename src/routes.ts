@@ -6,17 +6,13 @@ import {
   VideoController,
 } from './controllers';
 import { resolver } from './helpers';
-import {
-  RoomCreateMiddleware,
-  SubjectCreateMiddleware,
-  VideoCreateMiddleware,
-} from './middlewares';
+import { VideoCreateMiddleware } from './middlewares';
 
 const routes = Router();
 
 // routes subjects
 routes
-  .post('/rooms', [RoomCreateMiddleware], resolver(new RoomController().create))
+  .post('/rooms', [], resolver(new RoomController().create))
   .get(
     '/rooms/pagination',
     [],
@@ -26,11 +22,7 @@ routes
   .post('/rooms/add-subjects', resolver(new RoomController().addSubject));
 
 // routes subjects
-routes.post(
-  '/subjects',
-  [SubjectCreateMiddleware],
-  resolver(new SubjectController().create),
-);
+routes.post('/subjects', [], resolver(new SubjectController().create));
 
 // routes subjects
 routes.post(
