@@ -22,7 +22,6 @@ export class SigninController {
       select: {
         email: true,
         password: true,
-        roles: true,
       },
     });
 
@@ -40,7 +39,7 @@ export class SigninController {
 
     const token: Ttoken = {
       access_token: sign(
-        { email: userFound.email, roles: userFound.roles },
+        { email: userFound.email },
         process.env.JWT_SECRET ?? '',
         {
           expiresIn: '5m',

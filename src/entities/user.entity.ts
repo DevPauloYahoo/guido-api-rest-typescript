@@ -1,9 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { RoleEnum, UserInterface } from '../auth';
-
 @Entity('users')
-export class UserEntity implements UserInterface {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -15,7 +13,4 @@ export class UserEntity implements UserInterface {
 
   @Column({ type: 'text' })
   password: string;
-
-  @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.USER })
-  roles: RoleEnum[];
 }
