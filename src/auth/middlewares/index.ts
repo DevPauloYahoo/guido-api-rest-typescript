@@ -1,1 +1,1 @@
-export * from './auth-validation.middleware';
+export * from './auth.middleware';

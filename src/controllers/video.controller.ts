@@ -1,14 +1,21 @@
 import { Request, Response } from 'express';
 
 import { Video } from '../entities';
-import { videoRepository } from '../repositories';
+import { roomRepository, videoRepository } from '../repositories';
 import { videoSchema } from '../schemas/video.schema';
 
 export class VideoController {
   async create(req: Request, res: Response): Promise<Response<string>> {
     videoSchema.parse(req.body);
 
-    const { room } = req;
+    const { roomId } = req.params;
+    const room = await roomRepository.findOneBy({ id: roomId });
+
+    if (!room) {
+      return res
+        .status(404)
+        .json({ roomId: `Sala com ID ${roomId} não encontrada` });
+    }
 
     const newVideo = await videoRepository
       .createQueryBuilder()

@@ -10,7 +10,9 @@ export const errorsGlobalMiddleware = (
   next: NextFunction,
 ) => {
   const statusCode = error.statusCode ?? 500;
+  console.log('STATUS CODE ' + statusCode);
   const message = error.statusCode ? error.message : 'Erro interno no servidor';
+
   if (error.code === '23505') {
     return res
       .status(400)

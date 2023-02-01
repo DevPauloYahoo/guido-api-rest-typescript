@@ -13,4 +13,13 @@ export class SubjectController {
     await subjectRepository.save(newSubject);
     return res.status(201).json(newSubject);
   }
+
+  async findAll(req: Request, res: Response) {
+    const subjects = await subjectRepository.find({
+      relations: {
+        rooms: true,
+      },
+    });
+    return res.status(200).json(subjects);
+  }
 }

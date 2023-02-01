@@ -1,16 +1,18 @@
 import { Router } from 'express';
 
+import { authMiddleware } from './auth';
 import {
   RoomController,
   SubjectController,
   VideoController,
 } from './controllers';
 import { resolver } from './helpers';
-import { VideoCreateMiddleware } from './middlewares';
 
 const routes = Router();
 
-// routes subjects
+routes.use(authMiddleware);
+
+// routes rooms
 routes
   .post('/rooms', [], resolver(new RoomController().create))
   .get(
@@ -22,12 +24,14 @@ routes
   .post('/rooms/add-subjects', resolver(new RoomController().addSubject));
 
 // routes subjects
-routes.post('/subjects', [], resolver(new SubjectController().create));
+routes
+  .post('/subjects', [], resolver(new SubjectController().create))
+  .get('/subjects', resolver(new SubjectController().findAll));
 
-// routes subjects
+// routes videos
 routes.post(
   '/videos/:roomId/create',
-  [VideoCreateMiddleware],
+  [],
   resolver(new VideoController().create),
 );
 

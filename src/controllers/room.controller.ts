@@ -100,8 +100,17 @@ export class RoomController {
 
     const rooms = roomRepository
       .createQueryBuilder('room')
-      .select(['room.id', 'room.name', 'sub.id', 'sub.name'])
-      .leftJoin('room.subjects', 'sub', 'sub.id = room_sub.subject_id');
+      .select([
+        'room.id',
+        'room.name',
+        'sub.id',
+        'sub.name',
+        'video.id',
+        'video.title',
+        'video.url',
+      ])
+      .leftJoin('room.subjects', 'sub', 'sub.id = room_sub.subject_id')
+      .leftJoin('room.videos', 'video', 'video.room_id = room.id');
 
     const result = await paginate(rooms as any, Number(page), Number(limit));
 
