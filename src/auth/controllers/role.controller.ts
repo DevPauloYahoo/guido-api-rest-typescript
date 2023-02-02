@@ -3,14 +3,14 @@ import { z } from 'zod';
 
 import { Role } from '../../entities';
 import { RoleRepository } from '../repositories';
-import { roleSchema } from '../schemas';
+import { createRoleSchema } from '../schemas';
 
 export class RoleController {
   async create(req: Request, res: Response) {
-    roleSchema.parse(req.body);
+    createRoleSchema.parse(req.body);
     const { name, description } = req.body;
 
-    type TRole = z.infer<typeof roleSchema>;
+    type TRole = z.infer<typeof createRoleSchema>;
     const newRole: TRole = { name, description };
 
     const result = await RoleRepository.createQueryBuilder()

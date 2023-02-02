@@ -1,5 +1,6 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
+// ZOD Schema for SingIn
 export const signInSchema = z.object({
   email: z
     .string({ required_error: 'Email é obrigatório' })
@@ -10,6 +11,7 @@ export const signInSchema = z.object({
     .min(1, 'Senha é obrigatório'),
 });
 
+// ZOD Schema for SingUp
 export const signUpSchema = z.object({
   name: z
     .string({ required_error: 'Nome é obrigatório' })
@@ -27,19 +29,48 @@ export const signUpSchema = z.object({
     .min(6, 'Senha deve conter no mínimo 6 caracteres'),
 });
 
-export const roleSchema = z.object({
+// ZOD Schema for create Role
+export const createRoleSchema = z.object({
   name: z
     .string({ required_error: 'Nome é obrigatório' })
     .min(1, 'Nome é obrigatório')
     .min(4, 'Nome deve conter no mínimo 4 caracteres'),
-  description: z.string({ required_error: 'Senha é obrigatório' }).optional(),
+  description: z.string().optional(),
 });
 
-export const profileSchema = z.object({
+// ZOD Schema for Role
+export const roleSchema = z.object({
+  id: z
+    .string({ required_error: 'ID da Permissão é obrigatório' })
+    .min(1, 'ID da Permissão é obrigatório')
+    .uuid('ID com formato incorreto'),
+  name: z.string({ invalid_type_error: 'Nome deve ser um literal' }).optional(),
+  description: z
+    .string({ invalid_type_error: 'Nome deve ser um literal' })
+    .optional(),
+});
+
+// ZOD Schema for create Profile
+export const createProfileSchema = z.object({
   name: z
-    .string({ required_error: 'Nome é obrigatório' })
+    .string({
+      required_error: 'Nome é obrigatório',
+      invalid_type_error: 'Nome deve ser um literal',
+    })
     .min(1, 'Nome é obrigatório')
     .min(4, 'Nome deve conter no mínimo 4 caracteres'),
   description: z.string({ required_error: 'Senha é obrigatório' }).optional(),
-  role_id: z.string().optional(),
+  roles: z.array(roleSchema).optional(),
+});
+
+// ZOD Schema for add Role for Profile
+export const addRoleToProfileSchema = z.object({
+  profile_id: z
+    .string({ required_error: 'ID do perfil é obrigatório' })
+    .min(1, 'ID do perfil é obrigatório')
+    .uuid('ID com formato incorreto'),
+  role_id: z
+    .string({ required_error: 'ID da Permissão é obrigatório' })
+    .min(1, 'ID da Permissão é obrigatório')
+    .uuid('ID com formato incorreto'),
 });
