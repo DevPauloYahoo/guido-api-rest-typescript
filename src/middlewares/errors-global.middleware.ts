@@ -23,5 +23,6 @@ export const errorsGlobalMiddleware = (
     return errorZodValidation(error.issues, res);
   }
 
+  console.log(error);
   return res.status(statusCode).json({ message: message });
 };

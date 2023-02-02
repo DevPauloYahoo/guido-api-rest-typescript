@@ -1,12 +1,8 @@
 
-<
-package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 Q
 !src/schemas/add-subject.schema.ts,c\6\c65a261ae09bbf8a04219d90fabc86227a28eb10
 O
 src/helpers/api-errors.class.ts,b\6\b64086a391138b820592199a335ccfd90ccb69dc
-B
-src/data-source.ts,a\e\aec2a49ace0bcbbd5aca19ecf9a0a747b2dfce57
 O
 src/helpers/error-validation.ts,8\e\8ef07cd877cb2cb91f50ae57cb85157efb3462e9
 I
@@ -33,8 +29,6 @@ N
 src/entities/subject.entity.ts,9\8\98dbe53c337a41e4c40a236aff6c119e9e3382f1
 L
 src/entities/video.entity.ts,5\e\5e5774d1a306cd477123a51edc2ffaa8f08116b9
-K
-src/entities/room.entity.ts,e\b\eb1e25ab7d1df45efeedfdb1dc652f20eb445704
 R
 "src/helpers/errors-custom.class.ts,e\4\e4a053d88dc1210e5bbe6c8c97a2aa61e7c37e98
 4
@@ -43,10 +37,6 @@ S
 #src/helpers/async-error.resolver.ts,b\0\b06a43a52cd1a0150fedbf2c21a389173ab87ee9
 U
 %src/controllers/subject.controller.ts,f\8\f86d29e03d48196b27b981b79571f6eaa512d9a3
-R
-"src/controllers/room.controller.ts,b\5\b5ad37c1d565b0e0bfc1ca4bee014e1a78fbb604
-[
-+src/middlewares/errors-global.middleware.ts,3\0\30cfc686ca746f616cf92b6e2ee8a952408dd00b
 M
 src/auth/middlewares/index.ts,0\5\051b58c041694f81559a86ed30df0e7cb1006fe5
 H

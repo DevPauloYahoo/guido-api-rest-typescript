@@ -1,7 +1,6 @@
 import { Router } from 'express';
 
-import { authMiddleware, ProfileController } from './auth';
-import { RoleController } from './auth/controllers/role.controller';
+import { authMiddleware } from './auth';
 import {
   RoomController,
   SubjectController,
@@ -37,8 +36,8 @@ routes.post(
 );
 
 // routes profiles and roles
-routes
-  .post('/profiles', resolver(new ProfileController().create))
-  .post('/roles', resolver(new RoleController().create));
+// routes
+//   .post('/profiles', resolver(new ProfileController().create))
+//   .post('/roles', resolver(new RoleController().create));
 
 export default routes;

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon ./src/server.ts",
     "migration:generate": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:generate ./src/migrations/default",
+    "migration:create": "typeorm-ts-node-commonjs migration:create",
+    "migration:revert": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:revert",
     "migration:run": "typeorm-ts-node-commonjs -d ./src/data-source.ts migration:run",
     "build": "tsup ./src",
     "build:prod": "rm -rf ./dist && tsc"
