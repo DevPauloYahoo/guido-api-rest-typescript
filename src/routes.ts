@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
-import { authMiddleware } from './auth';
+import { authMiddleware, ProfileController } from './auth';
+import { RoleController } from './auth/controllers/role.controller';
 import {
   RoomController,
   SubjectController,
@@ -34,5 +35,10 @@ routes.post(
   [],
   resolver(new VideoController().create),
 );
+
+// routes profiles and roles
+routes
+  .post('/profiles', resolver(new ProfileController().create))
+  .post('/roles', resolver(new RoleController().create));
 
 export default routes;

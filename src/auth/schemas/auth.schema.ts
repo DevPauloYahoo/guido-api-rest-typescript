@@ -26,3 +26,11 @@ export const signUpSchema = z.object({
     .min(1, 'Senha é obrigatório')
     .min(6, 'Senha deve conter no mínimo 6 caracteres'),
 });
+
+export const roleProfileSchema = z.object({
+  name: z
+    .string({ required_error: 'Nome é obrigatório' })
+    .min(1, 'Nome é obrigatório')
+    .min(4, 'Nome deve conter no mínimo 4 caracteres'),
+  description: z.string({ required_error: 'Senha é obrigatório' }).optional(),
+});

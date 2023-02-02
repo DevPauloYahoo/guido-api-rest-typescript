@@ -1,20 +1,14 @@
 
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
-G
-src/auth/auth.routes.ts,6\5\654d668a080a213033f24661609d042fcff1ec27
 Q
 !src/schemas/add-subject.schema.ts,c\6\c65a261ae09bbf8a04219d90fabc86227a28eb10
 O
 src/helpers/api-errors.class.ts,b\6\b64086a391138b820592199a335ccfd90ccb69dc
-O
-src/auth/schemas/auth.schema.ts,2\7\27c3f8594e156e697b48f21d4888db7ae79c94e6
 B
 src/data-source.ts,a\e\aec2a49ace0bcbbd5aca19ecf9a0a747b2dfce57
 O
 src/helpers/error-validation.ts,8\e\8ef07cd877cb2cb91f50ae57cb85157efb3462e9
-M
-src/auth/controllers/index.ts,3\2\3234ece6a32c25b16fc416e6c3051aee77ac3bd3
 I
 src/auth/schemas/index.ts,a\2\a2288d2564cf9780cebb83401425ba58b4bf83bf
 H
