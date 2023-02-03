@@ -109,8 +109,8 @@ export class RoomController {
         'video.title',
         'video.url',
       ])
-      .leftJoin('room.subjects', 'sub', 'sub.id = room_sub.subject_id')
-      .leftJoin('room.videos', 'video', 'video.room_id = room.id');
+      .leftJoin('room.subjects', 'sub')
+      .leftJoin('room.videos', 'video');
 
     const result = await paginate(rooms as any, Number(page), Number(limit));
 

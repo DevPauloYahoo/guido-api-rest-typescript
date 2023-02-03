@@ -81,6 +81,15 @@ export class ProfileController {
       message: `Permissão: ${role.name} adicionada ao Perfil: ${profile.name}`,
     });
   }
+
+  async listAll(req: Request, res: Response) {
+    const profiles = await ProfileRepository.createQueryBuilder('profile')
+      .select(['profile.id', 'profile.name', 'role.id', 'role.name'])
+      .leftJoin('profile.roles', 'role')
+      .getMany();
+
+    return res.status(200).json(profiles);
+  }
 }
 
 // funções auxiliares

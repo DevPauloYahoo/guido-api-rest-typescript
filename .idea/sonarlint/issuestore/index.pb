@@ -40,8 +40,6 @@ S
 src/app.ts,2\1\216381173f187cf4c2baf119193855699f4bc616
 W
 'src/migrations/1675089471827-default.ts,2\b\2b861360012a1bb2544ee40f072dca104c347e15
-Y
-)src/auth/controllers/signin.controller.ts,d\b\db4d4a107a96a5138d40a4b8142e0f133602c53f
 W
 'src/auth/middlewares/auth.middleware.ts,2\f\2f8d706d1ee6961f182006dd834187ef275da9e7
 G
@@ -58,15 +56,25 @@ A
 +src/auth/repositories/profile.repository.ts,e\b\eb6f1a75297a11b1aaadba3ce4877c3902f812d0
 X
 (src/auth/repositories/role.repository.ts,8\c\8ceb6f47a173ffca9b65c3514a9ca7985c981a94
-K
-src/entities/room.entity.ts,e\b\eb1e25ab7d1df45efeedfdb1dc652f20eb445704
 W
 'src/migrations/1675295599131-default.ts,1\8\18505d24731f9c03c653b8c4839be500ab0f85df
-B
-src/data-source.ts,a\e\aec2a49ace0bcbbd5aca19ecf9a0a747b2dfce57
-K
-src/entities/role.entity.ts,0\9\09a36fb520dd7a38ab821d7a670bdb322442be7e
 <
 package.json,7\0\7030d0b2f71b999ff89a343de08c414af32fc93a
 W
 'src/migrations/1675305260899-default.ts,3\8\38cdc2fe430fe12b654ed47cf1729ae211febb25
+[
++src/middlewares/errors-global.middleware.ts,3\0\30cfc686ca746f616cf92b6e2ee8a952408dd00b
+=
+src/routes.ts,6\6\66e4a81fc55247b4be183c619e2fc089de919999
+J
+src/schemas/room.schema.ts,f\e\fe000f5bc74fe6d8994c6b66a83f8ca121edf9bd
+K
+src/entities/user.entity.ts,7\3\73aa420a87ed028f0f0f30e51a1e42c46fe7bfa8
+L
+src/entities/video.entity.ts,5\e\5e5774d1a306cd477123a51edc2ffaa8f08116b9
+W
+'src/migrations/1675294747054-default.ts,e\6\e643682d4b0d8311ba87de0f50a8c7f5f7f0b367
+O
+src/auth/schemas/auth.schema.ts,2\7\27c3f8594e156e697b48f21d4888db7ae79c94e6
+R
+"src/helpers/errors-custom.class.ts,e\4\e4a053d88dc1210e5bbe6c8c97a2aa61e7c37e98

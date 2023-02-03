@@ -15,10 +15,12 @@ authRoutes
   .post('/users/signin', resolver(new SigninController().signIn))
 
   .post('/profiles', resolver(new ProfileController().create))
+  .get('/profiles', resolver(new ProfileController().listAll))
   .post(
     '/profiles/add-roles',
     resolver(new ProfileController().addRoleToProfile),
   )
-  .post('/roles', resolver(new RoleController().create));
+  .post('/roles', resolver(new RoleController().create))
+  .get('/roles', resolver(new RoleController().listAll));
 
 export default authRoutes;

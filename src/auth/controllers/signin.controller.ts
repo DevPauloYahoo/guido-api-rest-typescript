@@ -42,7 +42,7 @@ export class SigninController {
         { email: userFound.email },
         process.env.JWT_SECRET ?? '',
         {
-          expiresIn: '5m',
+          expiresIn: '15m',
         },
       ),
     };

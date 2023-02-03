@@ -23,4 +23,10 @@ export class RoleController {
       .status(200)
       .json(`Permissão ${name.toUpperCase()} criado com sucesso`);
   }
+
+  async listAll(req: Request, res: Response) {
+    const roles = await RoleRepository.createQueryBuilder().getMany();
+
+    res.status(200).json(roles);
+  }
 }
