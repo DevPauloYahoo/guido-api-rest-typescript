@@ -16,7 +16,7 @@ authRoutes
 
   .post('/profiles', resolver(new ProfileController().create))
   .post(
-    '/profiles/add-role',
+    '/profiles/add-roles',
     resolver(new ProfileController().addRoleToProfile),
   )
   .post('/roles', resolver(new RoleController().create));

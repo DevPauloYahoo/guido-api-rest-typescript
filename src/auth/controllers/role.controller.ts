@@ -13,7 +13,7 @@ export class RoleController {
     type TRole = z.infer<typeof createRoleSchema>;
     const newRole: TRole = { name, description };
 
-    const result = await RoleRepository.createQueryBuilder()
+    await RoleRepository.createQueryBuilder()
       .insert()
       .into(Role)
       .values(newRole)
@@ -21,6 +21,6 @@ export class RoleController {
 
     return res
       .status(200)
-      .json(`Permissão com ID: ${result.raw[0].id} criado com sucesso`);
+      .json(`Permissão ${name.toUpperCase()} criado com sucesso`);
   }
 }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Profile } from '../../entities';
-import { NotFoundError } from '../../helpers';
+import { BadRequestError, NotFoundError } from '../../helpers';
 import { ProfileRepository, RoleRepository } from '../repositories';
 import { addRoleToProfileSchema, createProfileSchema } from '../schemas';
 
@@ -10,7 +10,34 @@ export class ProfileController {
     createProfileSchema.parse(req.body);
     const { name, description, roles } = req.body;
 
-    console.log('ROLES ' + JSON.stringify(roles));
+    if (roles) {
+      const ids: string[] = [];
+
+      for (const role of roles) {
+        ids.push(role.id);
+      }
+
+      if (hasDuplicates(ids)) {
+        throw new BadRequestError(
+          'Um Perfil não pode conter permissões duplicadas',
+        );
+      }
+
+      for (const rolesIds of roles) {
+        const roleFound = await RoleRepository.findOne({
+          where: { id: rolesIds.id },
+          select: {
+            id: true,
+          },
+        });
+
+        if (!roleFound) {
+          throw new NotFoundError(
+            `Permissão com ID: ${rolesIds.id} não encontrada`,
+          );
+        }
+      }
+    }
 
     const newProfile = await ProfileRepository.createQueryBuilder()
       .insert()
@@ -18,15 +45,15 @@ export class ProfileController {
       .values({ name, description })
       .execute();
 
-    for (const idsRole of roles) {
-      console.log(idsRole);
+    if (roles) {
       await ProfileRepository.createQueryBuilder()
         .relation(Profile, 'roles')
         .of(newProfile.identifiers)
-        .add(idsRole);
+        .add(roles);
     }
-
-    return res.status(201).json({ message: 'Perfil adicionado com sucesso' });
+    return res.status(201).json({
+      message: `Perfil ${name} adicionado com sucesso`,
+    });
   }
 
   async addRoleToProfile(req: Request, res: Response) {
@@ -54,4 +81,9 @@ export class ProfileController {
       message: `Permissão: ${role.name} adicionada ao Perfil: ${profile.name}`,
     });
   }
+}
+
+// funções auxiliares
+function hasDuplicates(array: any) {
+  return new Set(array).size !== array.length;
 }

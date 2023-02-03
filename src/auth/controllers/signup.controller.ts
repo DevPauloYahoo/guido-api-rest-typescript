@@ -11,15 +11,14 @@ export class SignupController {
 
     req.body.password = hashSync(req.body.password, 10);
 
-    const newUser = await UserRepository.createQueryBuilder()
+    await UserRepository.createQueryBuilder()
       .insert()
       .into(UserEntity)
       .values(req.body)
       .execute();
 
     return res.status(201).json({
-      message: `Usuário com ID: ${newUser.raw[0].id} e 
-                ROLE: ${newUser.raw[0].roles} adicionado com sucesso`,
+      message: `Usuário ${req.body.email.toUpperCase()} adicionado com sucesso`,
     });
   }
 }

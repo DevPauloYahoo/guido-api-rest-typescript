@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { Video } from '../entities';
+import { NotFoundError } from '../helpers';
 import { roomRepository, videoRepository } from '../repositories';
 import { videoSchema } from '../schemas/video.schema';
 
@@ -12,12 +13,10 @@ export class VideoController {
     const room = await roomRepository.findOneBy({ id: roomId });
 
     if (!room) {
-      return res
-        .status(404)
-        .json({ roomId: `Sala com ID ${roomId} não encontrada` });
+      throw new NotFoundError(`Sala com ID ${roomId} não encontrada`);
     }
 
-    const newVideo = await videoRepository
+    await videoRepository
       .createQueryBuilder()
       .insert()
       .into(Video)
@@ -25,7 +24,7 @@ export class VideoController {
       .execute();
 
     return res.status(201).json({
-      message: `Vídeo com ID: ${newVideo.raw[0].id} adicionado com sucesso`,
+      message: `Vídeo ${req.body.title.toUpperCase()} adicionado com sucesso`,
     });
   }
 }

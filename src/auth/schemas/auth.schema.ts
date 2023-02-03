@@ -1,4 +1,4 @@
-import {z} from 'zod';
+import { z } from 'zod';
 
 // ZOD Schema for SingIn
 export const signInSchema = z.object({

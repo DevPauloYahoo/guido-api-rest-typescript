@@ -17,7 +17,7 @@ export class RoomController {
   ): Promise<Response<Room> | undefined> {
     roomSchema.parse(req.body);
 
-    const newRoom = await roomRepository
+    await roomRepository
       .createQueryBuilder()
       .insert()
       .into(Room)
@@ -25,7 +25,7 @@ export class RoomController {
       .execute();
 
     return res.status(201).json({
-      message: `Sala com ID: ${newRoom.raw[0].id} adicionada com sucesso`,
+      message: `Sala ${req.body.name.toUpperCase()} adicionada com sucesso`,
     });
   }
 
