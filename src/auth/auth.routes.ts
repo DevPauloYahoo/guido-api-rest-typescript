@@ -12,7 +12,9 @@ const authRoutes = Router();
 
 authRoutes
   .post('/users/signup', resolver(new SignupController().signUp))
+  .post('/users/add-profile', resolver(new SignupController().addProfileToUser))
   .post('/users/signin', resolver(new SigninController().signIn))
+  .get('/users', resolver(new SignupController().listAll))
 
   .post('/profiles', resolver(new ProfileController().create))
   .get('/profiles', resolver(new ProfileController().listAll))

@@ -35,11 +35,13 @@ export class SigninController {
       throw new BadRequestError('Usuário ou senha inválido');
     }
 
-    console.log(userFound);
-
     const token: Ttoken = {
       access_token: sign(
-        { email: userFound.email },
+        {
+          id: userFound.id,
+          email: userFound.email,
+          profiles: userFound.profiles,
+        },
         process.env.JWT_SECRET ?? '',
         {
           expiresIn: '15m',

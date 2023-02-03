@@ -74,3 +74,15 @@ export const addRoleToProfileSchema = z.object({
     .min(1, 'ID da Permissão é obrigatório')
     .uuid('ID com formato incorreto'),
 });
+
+// ZOD Schema for add Profile for User
+export const addProfileToUserSchema = z.object({
+  profile_id: z
+    .string({ required_error: 'ID do perfil é obrigatório' })
+    .min(1, 'ID do perfil é obrigatório')
+    .uuid('ID com formato incorreto'),
+  user_id: z
+    .string({ required_error: 'ID do Usuário é obrigatório' })
+    .min(1, 'ID do Usuário é obrigatório')
+    .uuid('ID com formato incorreto'),
+});
