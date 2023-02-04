@@ -40,15 +40,22 @@ export class SigninController {
       throw new BadRequestError('Usuário ou senha inválido');
     }
 
+    const profilesName = userFound.profiles.map((value) => value.name);
+
+    const rolesName = userFound.profiles.map((value) =>
+      value.roles.map((value) => value.name),
+    );
+
     const token: Ttoken = {
       access_token: sign(
         {
-          id: userFound.id,
           email: userFound.email,
-          profiles: userFound.profiles,
+          profiles: profilesName,
+          roles: rolesName,
         },
         process.env.JWT_SECRET ?? '',
         {
+          subject: userFound.id,
           expiresIn: '15m',
         },
       ),

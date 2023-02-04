@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { JsonWebTokenError, TokenExpiredError, verify } from 'jsonwebtoken';
 
-import { Profile } from '../../entities';
-
 type payload = {
   id: string;
   email: string;
-  profiles: Profile[];
+  profiles: string[];
+  roles: string[];
 };
 
 export const isProfile = (userProfiles: string[]) => {
@@ -34,9 +33,7 @@ export const isProfile = (userProfiles: string[]) => {
 
       const { id, email, profiles } = decoded as payload;
 
-      const nameProfiles = profiles.map((p) => p.name);
-
-      const profilesExistis = nameProfiles.some((value) =>
+      const profilesExistis = profiles.some((value) =>
         userProfiles.includes(value),
       );
 
@@ -44,7 +41,6 @@ export const isProfile = (userProfiles: string[]) => {
         req.user = {
           id,
           email,
-          profiles,
         };
         next();
       } else {
