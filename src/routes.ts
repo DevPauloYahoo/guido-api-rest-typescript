@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { authMiddleware } from './auth';
+import { isProfile } from './auth';
 import {
   RoomController,
   SubjectController,
@@ -10,34 +10,42 @@ import { resolver } from './helpers';
 
 const routes = Router();
 
-routes.use(authMiddleware);
-
 // routes rooms
 routes
-  .post('/rooms', [], resolver(new RoomController().create))
-  .get(
-    '/rooms/pagination',
-    [],
-    resolver(new RoomController().findAllPagination),
+  // cadastra novas salas
+  .post(
+    '/rooms',
+    [isProfile(['ADMIN', 'USER'])],
+    resolver(new RoomController().create),
   )
-  .get('/rooms/:roomId', [], resolver(new RoomController().findById))
-  .post('/rooms/add-subjects', resolver(new RoomController().addSubject));
+  // adiciona disciplinas nas salas
+  .post(
+    '/rooms/add-subjects',
+    [isProfile(['ADMIN', 'USER'])],
+    resolver(new RoomController().addSubject),
+  )
+  // busca todas as salas com paginação
+  .get('/rooms/pagination', resolver(new RoomController().findAllPagination))
+  // busca uma sala por ID
+  .get('/rooms/:roomId', resolver(new RoomController().findById));
 
 // routes subjects
+// cadastra novas disciplinas
 routes
-  .post('/subjects', [], resolver(new SubjectController().create))
+  .post(
+    '/subjects',
+    [isProfile(['ADMIN', 'USER'])],
+    resolver(new SubjectController().create),
+  )
+  // busca todas as salas
   .get('/subjects', resolver(new SubjectController().findAll));
 
 // routes videos
+// cadastra novos vídeos
 routes.post(
   '/videos/:roomId/create',
-  [],
+  [isProfile(['ADMIN', 'USER'])],
   resolver(new VideoController().create),
 );
-
-// routes profiles and roles
-// routes
-//   .post('/profiles', resolver(new ProfileController().create))
-//   .post('/roles', resolver(new RoleController().create));
 
 export default routes;

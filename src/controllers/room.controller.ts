@@ -8,7 +8,7 @@ import { Room } from '../entities';
 import { NotFoundError } from '../helpers';
 import { roomRepository, subjectRepository } from '../repositories';
 import { addSubjectSchema } from '../schemas/add-subject.schema';
-import { roomSchema } from '../schemas/room.schema';
+import { findByIdRoomSchema, roomSchema } from '../schemas/room.schema';
 
 export class RoomController {
   async create(
@@ -72,6 +72,8 @@ export class RoomController {
     req: Request,
     res: Response,
   ): Promise<Response<Room> | undefined> {
+    findByIdRoomSchema.parse(req.params);
+
     const { roomId } = req.params;
 
     const roomFound = await roomRepository.findOne({

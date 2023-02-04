@@ -7,3 +7,7 @@ export const roomSchema = z.object({
     .min(4, 'Nome da Sala deve ter no mínimo 4 caracteres'),
   description: z.string().optional(),
 });
+
+export const findByIdRoomSchema = z.object({
+  roomId: z.string().uuid('ID com formato inválido'),
+});
