@@ -17,13 +17,12 @@ export class SigninController {
 
     const { email, password } = req.body;
 
-    const userFound = await UserRepository.findOne({
-      where: { email },
-      select: {
-        email: true,
-        password: true,
-      },
-    });
+    const userFound = await UserRepository.createQueryBuilder('user')
+      .select(['user.email', 'user.password', 'profile.name', 'role.name'])
+      .leftJoin('user.profiles', 'profile')
+      .leftJoin('profile.roles', 'role')
+      .where('user.email = :email', { email })
+      .getOne();
 
     if (!userFound) {
       throw new BadRequestError('Usuário ou senha inválido');

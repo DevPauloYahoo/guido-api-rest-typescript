@@ -1,9 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 import { JsonWebTokenError, TokenExpiredError, verify } from 'jsonwebtoken';
 
+import { Profile } from '../../entities';
+
 type payload = {
+  id: string;
   email: string;
-  roles: string[];
+  profiles: Profile[];
 };
 
 export const authMiddleware = async (
@@ -28,13 +31,15 @@ export const authMiddleware = async (
       return res.status(403).json({ message: 'Token inválido. Acesso negado' });
     }
 
-    const { email } = decoded as payload;
+    const { id, email, profiles } = decoded as payload;
 
     req.user = {
+      id,
       email,
+      profiles,
     };
 
-    console.log('USER ' + req.user.email);
+    console.log('USER REQUEST ' + JSON.stringify(req.user));
   });
 
   next();

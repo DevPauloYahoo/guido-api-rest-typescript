@@ -67,14 +67,7 @@ export class SignupController {
 
   async listAll(req: Request, res: Response) {
     const users = await UserRepository.createQueryBuilder('user')
-      .select([
-        'user.id',
-        'user.name',
-        'profile.id',
-        'profile.name',
-        'role.id',
-        'role.name',
-      ])
+      .select(['user.id', 'user.name', 'profile.name', 'role.name'])
       .leftJoin('user.profiles', 'profile')
       .leftJoin('profile.roles', 'role')
       .getMany();
