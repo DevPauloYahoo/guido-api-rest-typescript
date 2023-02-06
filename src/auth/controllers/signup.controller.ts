@@ -26,7 +26,7 @@ export class SignupController {
         });
 
         if (!profileFound) {
-          throw new NotFoundError('Perfil não encontrado');
+          throw new NotFoundError(`Perfil '${profileName}' não encontrado`);
         }
 
         profileIds.push(profileFound.id);
@@ -42,7 +42,7 @@ export class SignupController {
       });
 
       if (!profileFound) {
-        throw new NotFoundError('Perfil não encontrado');
+        throw new NotFoundError(`Perfil 'ROLE_USER' não encontrado`);
       }
       profileIds.push(profileFound.id);
     }

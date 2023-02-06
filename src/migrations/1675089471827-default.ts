@@ -4,9 +4,6 @@ export class default1675089471827 implements MigrationInterface {
   name = 'default1675089471827';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    // await queryRunner.query(
-    //   `CREATE TYPE "public"."users_roles_enum" AS ENUM('user', 'admin')`,
-    // );
     await queryRunner.query(
       `CREATE TABLE "users"
        (
@@ -23,6 +20,5 @@ export class default1675089471827 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`DROP TABLE "users"`);
-    // await queryRunner.query(`DROP TYPE "public"."users_roles_enum"`);
   }
 }
