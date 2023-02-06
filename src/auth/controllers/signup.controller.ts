@@ -8,16 +8,55 @@ import { ProfileRepository } from '../repositories';
 import { addProfileToUserSchema, signUpSchema } from '../schemas';
 
 export class SignupController {
-  async signUp(req: Request, res: Response): Promise<Response<UserEntity>> {
+  async signUp(req: Request, res: Response) {
     signUpSchema.parse(req.body);
 
     req.body.password = hashSync(req.body.password, 10);
 
-    await UserRepository.createQueryBuilder()
+    const { profiles } = req.body;
+    const profileIds: string[] = [];
+
+    if (profiles) {
+      for (const profileName of profiles) {
+        const profileFound = await ProfileRepository.findOne({
+          where: { name: profileName },
+          select: {
+            id: true,
+          },
+        });
+
+        if (!profileFound) {
+          throw new NotFoundError('Perfil não encontrado');
+        }
+
+        profileIds.push(profileFound.id);
+      }
+    } else {
+      const profileFound = await ProfileRepository.findOne({
+        where: {
+          name: 'PRO_USER',
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      if (!profileFound) {
+        throw new NotFoundError('Perfil não encontrado');
+      }
+      profileIds.push(profileFound.id);
+    }
+
+    const newUser = await UserRepository.createQueryBuilder()
       .insert()
       .into(UserEntity)
       .values(req.body)
       .execute();
+
+    await UserRepository.createQueryBuilder()
+      .relation(UserEntity, 'profiles')
+      .of(newUser.identifiers)
+      .add(profileIds);
 
     return res.status(201).json({
       message: `Usuário ${req.body.email.toUpperCase()} adicionado com sucesso`,

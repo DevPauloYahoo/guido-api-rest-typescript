@@ -13,7 +13,9 @@ export const isProfile = (userProfiles: string[]) => {
     const { authorization } = req.headers;
 
     if (!authorization) {
-      return res.status(401).json({ message: 'Acesso não autorizado' });
+      return res
+        .status(401)
+        .json({ message: 'Usuário não logado. Acesso não autorizado' });
     }
 
     const token = authorization.substring(7).trim();

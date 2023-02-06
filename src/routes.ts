@@ -15,26 +15,34 @@ routes
   // cadastra novas salas
   .post(
     '/rooms',
-    [isProfile(['ADMIN', 'USER'])],
+    [isProfile(['PRO_ADMIN', 'PRO_USER'])],
     resolver(new RoomController().create),
   )
   // adiciona disciplinas nas salas
   .post(
     '/rooms/add-subjects',
-    [isProfile(['ADMIN', 'USER'])],
+    [isProfile(['PRO_ADMIN', 'PRO_USER'])],
     resolver(new RoomController().addSubject),
   )
   // busca todas as salas com paginação
-  .get('/rooms/pagination', resolver(new RoomController().findAllPagination))
+  .get(
+    '/rooms/pagination',
+    [isProfile(['PRO_ADMIN', 'PRO_USER', 'PRO_CONVIDADO'])],
+    resolver(new RoomController().findAllPagination),
+  )
   // busca uma sala por ID
-  .get('/rooms/:roomId', resolver(new RoomController().findById));
+  .get(
+    '/rooms/:roomId',
+    [isProfile(['PRO_ADMIN', 'PRO_USER', 'PRO_CONVIDADO'])],
+    resolver(new RoomController().findById),
+  );
 
 // routes subjects
 // cadastra novas disciplinas
 routes
   .post(
     '/subjects',
-    [isProfile(['ADMIN', 'USER'])],
+    [isProfile(['PRO_ADMIN', 'PRO_USER'])],
     resolver(new SubjectController().create),
   )
   // busca todas as salas
@@ -44,7 +52,7 @@ routes
 // cadastra novos vídeos
 routes.post(
   '/videos/:roomId/create',
-  [isProfile(['ADMIN', 'USER'])],
+  [isProfile(['PRO_ADMIN', 'PRO_USER', 'PRO_CONVIDADO'])],
   resolver(new VideoController().create),
 );
 

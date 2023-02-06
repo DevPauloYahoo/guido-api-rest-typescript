@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+enum ProfilesEnum {
+  ADMIN = 'PRO_ADMIN',
+  USER = 'PRO_USER',
+  CONVIDADO = 'PRO_CONVIDADO',
+}
+
 // ZOD Schema for SingIn
 export const signInSchema = z.object({
   email: z
@@ -27,6 +33,13 @@ export const signUpSchema = z.object({
     .string({ required_error: 'Senha é obrigatório' })
     .min(1, 'Senha é obrigatório')
     .min(6, 'Senha deve conter no mínimo 6 caracteres'),
+
+  profiles: z
+    .nativeEnum(ProfilesEnum, {
+      invalid_type_error: 'Dados com formato incorreto',
+    })
+    .array()
+    .optional(),
 });
 
 // ZOD Schema for create Role
