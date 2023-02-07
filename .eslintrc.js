@@ -5,7 +5,11 @@ module.exports = {
     tsconfigRootDir: __dirname,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint/eslint-plugin', 'eslint-plugin-import-helpers'],
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
+    'eslint-plugin-import-helpers',
+    'prettier',
+  ],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
@@ -22,30 +26,20 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'import-helpers/order-imports': [
-      "warn",
+      'warn',
       {
-        'newlinesBetween': 'always',
-        'groups': [
-          [
-            '/^react/'
-          ],
-          [
-            'module'
-          ],
-          [
-            '/^~//'
-          ],
-          [
-            'parent',
-            'sibling',
-            'index'
-          ]
+        newlinesBetween: 'always',
+        groups: [
+          ['/^react/'],
+          ['module'],
+          ['/^~//'],
+          ['parent', 'sibling', 'index'],
         ],
-        'alphabetize': {
-          'order': "asc",
-          'ignoreCase': true
-        }
-      }
+        alphabetize: {
+          order: 'asc',
+          ignoreCase: true,
+        },
+      },
     ],
   },
 };

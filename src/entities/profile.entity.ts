@@ -14,13 +14,13 @@ export class Profile {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'text', unique: true })
   name: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   description: string;
 
-  @ManyToMany(() => Role)
+  @ManyToMany(() => Role, { cascade: true })
   @JoinTable({
     name: 'profiles_roles',
     joinColumn: {

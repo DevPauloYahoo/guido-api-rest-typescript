@@ -10,10 +10,10 @@ export class Role {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'text', unique: true })
   name: string;
 
-  @Column()
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @CreateDateColumn()
